@@ -25,7 +25,7 @@ I did not want to play much with the appearance of this project. Instead, I paid
 
 ## Launch
 
-[Site for the game](https://anthonychavis.github.io/bankist/)
+[Financial Institution site](https://anthonychavis.github.io/bankist/)
 
 ## Illustration
 
