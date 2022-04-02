@@ -15,7 +15,7 @@ Banking web application with only front-end.
 
 <!-- The goal of the project was primarily to practice javascript functionality. -->
 
-I did not want to play much with the appearance of this project. Instead, I paid more attention to how a more experienced engineer structured the HTML & CSS files & web page. I also want to play more with APIs, including creating projects myself.
+I did not want to play much with the appearance of this project. Instead, I paid more attention to how a more experienced engineer structured the HTML & CSS files & web page. I also want to push through projects to play more with APIs, including creating projects myself.
 
 ## Technologies
 
