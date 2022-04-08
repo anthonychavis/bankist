@@ -50,9 +50,9 @@
                     placeholder="user"
                     class="login__input login__input--user"
                 />
-                <!-- type="text" for lesson -->
+                <!-- type="text" for lesson, would normally be "password" -->
                 <input
-                    type="password"
+                    type="text"
                     placeholder="PIN"
                     maxlength="4"
                     class="login__input login__input--pin"
@@ -108,21 +108,17 @@
                 <form action="" class="form form--transfer">
                     <input
                         type="text"
-                        id="transfer-to"
                         class="form__input form__input--to"
                     />
                     <input
                         type="number"
-                        id="transfer-amount"
                         class="form__input form__input--amount"
                     />
                     <button class="form__btn form__btn--transfer">
                         &rarr;
                     </button>
-                    <label for="transfer-to" class="form__label"
                         >Transfer to</label
                     >
-                    <label for="transfer-amount" class="form__label"
                         >Amount</label
                     >
                 </form>
@@ -134,12 +130,10 @@
                 <form action="" class="form form--loan">
                     <input
                         type="number"
-                        id="loan-amount"
                         class="form__input form__input--loan-amount"
                     />
                     <button class="form__btn form__btn--loan">&rarr;</button>
                     <label
-                        for="loan-amount"
                         class="form__label form__label--loan"
                         >Amount</label
                     >
@@ -152,20 +146,18 @@
                 <form action="" class="form form--close">
                     <input
                         type="text"
-                        id="user-id"
                         class="form__input form__input--user"
                     />
                     <input
                         type="password"
-                        id="user-pin"
                         maxlength="6"
                         class="form__input form__input--pin"
                     />
                     <button class="form__btn form__btn--close">&rarr;</button>
-                    <label for="user-id" class="form__label"
+                    <label  class="form__label"
                         >Confirm user</label
                     >
-                    <label for="user-pin" class="form__label"
+                    <label  class="form__label"
                         >Confirm pin</label
                     >
                 </form>

@@ -1,6 +1,7 @@
 'use strict';
 
 // Data
+// all values in movements in USD until converted
 const account1 = {
     owner: 'Jonas Schmedtmann',
     movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
@@ -9,7 +10,7 @@ const account1 = {
 };
 
 const account2 = {
-    owner: 'Jane De',
+    owner: 'Jessica Davis',
     movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
     interestRate: 1.5, // %
     pin: 2222,
@@ -58,17 +59,30 @@ const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
 // Fxns
-const displayMovements = movements => {
+const createUsernames = function (accs) {
+    // for the username, we dont want to create a new array. we want to modify the inputed array - mutate original array. so, use forEach
+    accs.forEach(function (acc) {
+        // create and assign new property
+        acc.username = acc.owner
+            .toLowerCase()
+            .split(' ')
+            .map(name => name[0])
+            .join('');
+    });
+};
+createUsernames(accounts);
+
+const displayMovements = function (movements) {
     // first, remove old html from the container
     containerMovements.innerHTML = '';
 
     movements.forEach((mov, i) => {
-        const depositOrWithdrawal = mov > 0 ? 'deposit' : 'withdrawal';
+        const type = mov > 0 ? 'deposit' : 'withdrawal';
 
         // new html
         const html = `<div class="movements__row">
-            <div class="movements__type movements__type--${depositOrWithdrawal}">
-                ${i + 1} ${depositOrWithdrawal}
+            <div class="movements__type movements__type--${type}">
+                ${i + 1} ${type}
             </div>
             <div class="movements__value">${mov}</div>
         </div>`;
@@ -78,5 +92,7 @@ const displayMovements = movements => {
     });
 };
 
-// test the fxn
-displayMovements(account1.movements);
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
