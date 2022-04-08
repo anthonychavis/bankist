@@ -56,3 +56,27 @@ const inputTransferAmount = document.querySelector('.form__input--amount');
 const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
+
+// Fxns
+const displayMovements = movements => {
+    // first, remove old html from the container
+    containerMovements.innerHTML = '';
+
+    movements.forEach((mov, i) => {
+        const depositOrWithdrawal = mov > 0 ? 'deposit' : 'withdrawal';
+
+        // new html
+        const html = `<div class="movements__row">
+            <div class="movements__type movements__type--${depositOrWithdrawal}">
+                ${i + 1} ${depositOrWithdrawal}
+            </div>
+            <div class="movements__value">${mov}</div>
+        </div>`;
+
+        // refill container
+        containerMovements.insertAdjacentHTML('afterbegin', html);
+    });
+};
+
+// test the fxn
+displayMovements(account1.movements);

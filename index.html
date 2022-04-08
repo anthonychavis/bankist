@@ -15,7 +15,7 @@
             href="https://fonts.googleapis.com/css?family=Poppins:400,500,600&display=swap"
         />
         <link rel="stylesheet" href="style.css" />
-
+        <script defer src="script.js"></script>
         <meta name="author" content="Anthony Chavis" />
         <meta name="description" content="" />
         <meta property="og: title" content="" />
@@ -106,16 +106,25 @@
             <div class="operation operation--transfer">
                 <h2>Transfer money</h2>
                 <form action="" class="form form--transfer">
-                    <input type="text" class="form__input form__input--to" />
+                    <input
+                        type="text"
+                        id="transfer-to"
+                        class="form__input form__input--to"
+                    />
                     <input
                         type="number"
+                        id="transfer-amount"
                         class="form__input form__input--amount"
                     />
                     <button class="form__btn form__btn--transfer">
                         &rarr;
                     </button>
-                    <label for="" class="form__label">Transfer to</label>
-                    <label for="" class="form__label">Amount</label>
+                    <label for="transfer-to" class="form__label"
+                        >Transfer to</label
+                    >
+                    <label for="transfer-amount" class="form__label"
+                        >Amount</label
+                    >
                 </form>
             </div>
 
@@ -125,10 +134,13 @@
                 <form action="" class="form form--loan">
                     <input
                         type="number"
+                        id="loan-amount"
                         class="form__input form__input--loan-amount"
                     />
                     <button class="form__btn form__btn--loan">&rarr;</button>
-                    <label for="" class="form__label form__label--loan"
+                    <label
+                        for="loan-amount"
+                        class="form__label form__label--loan"
                         >Amount</label
                     >
                 </form>
@@ -138,15 +150,24 @@
             <div class="operation operation--close">
                 <h2>Close account</h2>
                 <form action="" class="form form--close">
-                    <input type="text" class="form__input form__input--user" />
+                    <input
+                        type="text"
+                        id="user-id"
+                        class="form__input form__input--user"
+                    />
                     <input
                         type="password"
+                        id="user-pin"
                         maxlength="6"
                         class="form__input form__input--pin"
                     />
                     <button class="form__btn form__btn--close">&rarr;</button>
-                    <label for="" class="form__label">Confirm user</label>
-                    <label for="" class="form__label">Confirm pin</label>
+                    <label for="user-id" class="form__label"
+                        >Confirm user</label
+                    >
+                    <label for="user-pin" class="form__label"
+                        >Confirm pin</label
+                    >
                 </form>
             </div>
 
