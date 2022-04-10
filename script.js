@@ -1,7 +1,7 @@
 'use strict';
 
 // Data
-// all values in movements in USD until converted
+// all values in movements in EUR until converted
 const account1 = {
     owner: 'Jonas Schmedtmann',
     movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
@@ -91,6 +91,38 @@ const displayMovements = function (movements) {
         containerMovements.insertAdjacentHTML('afterbegin', html);
     });
 };
+// test it works
+// displayMovements(account1.movements);
+
+const calcDisplayBalance = function (movements) {
+    const balance = movements.reduce((acc, mov) => acc + mov, 0);
+    labelBalance.textContent = `${balance} €`;
+};
+// test it works
+// calcDisplayBalance(account1.movements);
+
+const calcDisplaySummary = function (movements) {
+    const incomes = movements
+        .filter(mov => mov > 0)
+        .reduce((acc, mov) => acc + mov, 0);
+    labelSumIn.textContent = `${incomes} €`;
+
+    const out = movements
+        .filter(mov => mov < 0)
+        .reduce((acc, mov) => acc + mov);
+    labelSumOut.textContent = `${Math.abs(out)}€`;
+
+    // interest automatically applied to deposits
+    const interest = movements
+        .filter(mov => mov > 0)
+        .map(deposit => (deposit * 1.2) / 100)
+        // interest only applied to deposits whereas the interest is at least 1 €
+        .filter(int => int >= 1)
+        .reduce((acc, int) => acc + int, 0);
+    labelSumInterest.textContent = `${interest}€`;
+};
+// test it works
+// calcDisplaySummary(account1.movements);
 
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
