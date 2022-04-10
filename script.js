@@ -91,38 +91,72 @@ const displayMovements = function (movements) {
         containerMovements.insertAdjacentHTML('afterbegin', html);
     });
 };
-// test it works
-// displayMovements(account1.movements);
 
 const calcDisplayBalance = function (movements) {
     const balance = movements.reduce((acc, mov) => acc + mov, 0);
     labelBalance.textContent = `${balance} €`;
 };
-// test it works
-// calcDisplayBalance(account1.movements);
 
-const calcDisplaySummary = function (movements) {
-    const incomes = movements
+const calcDisplaySummary = function (acc) {
+    const incomes = acc.movements
         .filter(mov => mov > 0)
         .reduce((acc, mov) => acc + mov, 0);
     labelSumIn.textContent = `${incomes} €`;
 
-    const out = movements
+    const out = acc.movements
         .filter(mov => mov < 0)
         .reduce((acc, mov) => acc + mov);
     labelSumOut.textContent = `${Math.abs(out)}€`;
 
     // interest automatically applied to deposits
-    const interest = movements
+    const interest = acc.movements
         .filter(mov => mov > 0)
-        .map(deposit => (deposit * 1.2) / 100)
+        .map(deposit => (deposit * acc.interestRate) / 100)
         // interest only applied to deposits whereas the interest is at least 1 €
         .filter(int => int >= 1)
         .reduce((acc, int) => acc + int, 0);
     labelSumInterest.textContent = `${interest}€`;
 };
-// test it works
-// calcDisplaySummary(account1.movements);
+
+// Event handlers
+let currentAccount;
+
+btnLogin.addEventListener('click', function (e) {
+    // prevent default submit behavior
+    e.preventDefault();
+
+    // global b/c we'll need the variable in other fxns
+    currentAccount = accounts.find(
+        acc => acc.username === inputLoginUsername.value
+    );
+
+    // optional chaining used to short-circuit if currentAccount is not defined
+    if (currentAccount?.pin === +inputLoginPin.value) {
+        // Display UI & welcome
+        labelWelcome.textContent = `Welcome back, ${
+            currentAccount.owner.split(' ')[0]
+        }`;
+        containerApp.style.opacity = 1;
+
+        // Clear input fields
+        inputLoginUsername.value = inputLoginPin.value = '';
+        // field loses focus
+        inputLoginPin.blur();
+
+        // Display movements
+        displayMovements(currentAccount.movements);
+
+        // Display balance
+        calcDisplayBalance(currentAccount.movements);
+
+        // Display summary
+        calcDisplaySummary(currentAccount);
+
+        // Start/restart logout timer
+    }
+
+    console.log(currentAccount);
+});
 
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
