@@ -72,11 +72,14 @@ const createUsernames = function (accs) {
 };
 createUsernames(accounts);
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
     // first, remove old html from the container
     containerMovements.innerHTML = '';
 
-    movements.forEach((mov, i) => {
+    // sort
+    const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+    movs.forEach((mov, i) => {
         const type = mov > 0 ? 'deposit' : 'withdrawal';
 
         // new html
@@ -193,7 +196,7 @@ btnLoan.addEventListener('click', function (e) {
 
     if (
         amount > 0 &&
-        currentAccount?.movements.some(mov => mov >= amount * 0.1) // note the "cheat"
+        currentAccount.movements.some(mov => mov >= amount * 0.1) // note the "cheat"
     ) {
         // Add movement
         currentAccount.movements.push(amount);
@@ -226,6 +229,14 @@ btnClose.addEventListener('click', function (e) {
     inputCloseUsername.value = inputClosePin.value = '';
 });
 
+// state variable to monitor if we are sorting the array or not is global to remember the value after the btn is clicked
+let sorted = false;
+
+btnSort.addEventListener('click', function (e) {
+    e.preventDefault();
+    displayMovements(currentAccount.movements, !sorted);
+    sorted = !sorted;
+});
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
