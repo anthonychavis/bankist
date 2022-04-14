@@ -7,6 +7,7 @@ const account1 = {
     movements: [200, 450.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300],
     interestRate: 1.2, // %
     pin: 1111,
+    // JS created ISOStrings
     movementsDates: [
         '2019-11-18T21:31:17.178Z',
         '2019-12-23T07:42:02.383Z',
@@ -27,7 +28,7 @@ const account2 = {
     interestRate: 1.5, // %
     pin: 2222,
     movementsDates: [
-        '2019-11-01T13:15:33.035',
+        '2019-11-01T13:15:33.035Z',
         '2019-11-30T09:48:16.867Z',
         '2019-12-25T06:04:23.907Z',
         '2020-01-25T14:18:46.235Z',
@@ -96,21 +97,31 @@ const createUsernames = function (accs) {
 };
 createUsernames(accounts);
 
-const displayMovements = function (movements, sort = false) {
+const displayMovements = function (acc, sort = false) {
     // first, remove old html from the container
     containerMovements.innerHTML = '';
 
     // sort
-    const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+    const movs = sort
+        ? acc.movements.slice().sort((a, b) => a - b)
+        : acc.movements;
 
     movs.forEach((mov, i) => {
         const type = mov > 0 ? 'deposit' : 'withdrawal';
+
+        // common technique of looping over 2 arrays at once - looping over the movements array and using that index to loop through the movementsDates array.
+        const date = new Date(acc.movementsDates[i]);
+        const day = `${date.getDate()}`.padStart(2, 0);
+        const month = `${date.getMonth() + 1}`.padStart(2, 0);
+        const year = `${date.getFullYear()}`;
+        const displayDate = `${day}/${month}/${year}`;
 
         // new html
         const html = `<div class="movements__row">
             <div class="movements__type movements__type--${type}">
                 ${i + 1} ${type}
             </div>
+            <div class="movements__date">${displayDate}</div>
             <div class="movements__value">${mov.toFixed(2)}</div>
         </div>`;
 
@@ -148,7 +159,7 @@ const calcDisplaySummary = function (acc) {
 
 const updateUI = function (acc) {
     // Display movements
-    displayMovements(acc.movements);
+    displayMovements(acc);
 
     // Display balance
     calcDisplayBalance(acc);
@@ -175,7 +186,16 @@ btnLogin.addEventListener('click', function (e) {
         labelWelcome.textContent = `Welcome back, ${
             currentAccount.owner.split(' ')[0]
         }`;
-        containerApp.style.opacity = 1;
+        containerApp.style.opacity = 100;
+
+        // Create current date and time (w/o timer)
+        const now = new Date();
+        const day = `${now.getDate()}`.padStart(2, 0);
+        const month = `${now.getMonth()}`.padStart(2, 0);
+        const year = now.getFullYear();
+        const hour = `${now.getHours()}`.padStart(2, 0);
+        const min = `${now.getMinutes()}`.padStart(2, 0);
+        labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}`;
 
         // Clear input fields
         inputLoginUsername.value = inputLoginPin.value = '';
@@ -208,6 +228,10 @@ btnTransfer.addEventListener('click', function (e) {
         currentAccount.movements.push(-amount);
         receiverAcc.movements.push(amount);
 
+        // Add transfer date
+        currentAccount.movementsDates.push(new Date().toISOString());
+        receiverAcc.movementsDates.push(new Date().toISOString());
+
         // Update UI
         updateUI(currentAccount);
     }
@@ -224,6 +248,9 @@ btnLoan.addEventListener('click', function (e) {
     ) {
         // Add movement
         currentAccount.movements.push(amount);
+
+        // Add loan date
+        currentAccount.movementsDates.push(new Date().toISOString());
 
         // Update UI
         updateUI(currentAccount);
@@ -258,16 +285,12 @@ let sorted = false;
 
 btnSort.addEventListener('click', function (e) {
     e.preventDefault();
-    displayMovements(currentAccount.movements, !sorted);
+    displayMovements(currentAccount, !sorted);
     sorted = !sorted;
 });
-////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////
 
-// this code has to be in an event handler b/c although it executes as soon as the page loads, it is overwritten when the user logs in
 labelBalance.addEventListener('click', function () {
+    // this code has to be in an event handler b/c although it executes as soon as the page loads, it is overwritten when the user logs in
     [...document.querySelectorAll('.movements__row')].forEach(function (
         row,
         i
@@ -278,3 +301,8 @@ labelBalance.addEventListener('click', function () {
         if (i % 3 === 0) row.style.backgroundColor = 'blue';
     });
 });
+
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
