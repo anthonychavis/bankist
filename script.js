@@ -175,7 +175,7 @@ const calcDisplaySummary = function (acc) {
     const interest = acc.movements
         .filter(mov => mov > 0)
         .map(deposit => (deposit * acc.interestRate) / 100)
-        // interest only applied to deposits whereas the interest is at least 1 €
+        // interest only applied to deposits when the interest is at least 1 €
         .filter(int => int >= 1)
         .reduce((acc, int) => acc + int, 0);
     labelSumInterest.textContent = formatCur(
@@ -196,8 +196,39 @@ const updateUI = function (acc) {
     calcDisplaySummary(acc);
 };
 
+// since we have so much code already in the login handler, we create the timeout fxn outside of it
+const startLogOutTimer = function () {
+    // we assign the interval callback fxn to a variable to manage the delay in the display of the timer - part 1
+    const tick = () => {
+        const min = String(Math.trunc(time / 60)).padStart(2, 0);
+        const sec = String(time % 60).padStart(2, 0);
+
+        // In each call, print remaining time to UI
+        labelTimer.textContent = `${min}:${sec}`;
+
+        // When 0 seconds, stop timer and log out user
+        if (time === 0) {
+            clearInterval(timer);
+            labelWelcome.textContent = 'Log in to get started';
+            containerApp.style.opacity = 0;
+        }
+        // Decrease 1s
+        time--; // location, location, location
+    };
+
+    // Set time to 5 minutes
+    let time = 300;
+
+    // Call timer every second
+    tick(); // we immediately call the fxn to manage the display delay - part 2
+    const timer = setInterval(tick, 1000); // pass in the callback fxn (manage display delay) - part 3
+
+    // manage multiple timers running simultaneously - part 1
+    return timer;
+};
+
 // Event handlers
-let currentAccount;
+let currentAccount, timer; // we need the timer global to prevent multiple timers - part 2 - and also to reset the timer based on user activity
 
 btnLogin.addEventListener('click', function (e) {
     // prevent default submit behavior
@@ -239,10 +270,12 @@ btnLogin.addEventListener('click', function (e) {
         // field loses focus
         inputLoginPin.blur();
 
+        // Timer - manage multiple timers - part 3
+        if (timer) clearInterval(timer);
+        timer = startLogOutTimer();
+
         // Update UI
         updateUI(currentAccount);
-
-        // Start/restart logout timer
     }
 });
 
@@ -271,6 +304,10 @@ btnTransfer.addEventListener('click', function (e) {
 
         // Update UI
         updateUI(currentAccount);
+
+        // Reset timer
+        clearInterval(timer);
+        timer = startLogOutTimer();
     }
 });
 
@@ -283,14 +320,21 @@ btnLoan.addEventListener('click', function (e) {
         amount > 0 &&
         currentAccount.movements.some(mov => mov >= amount * 0.1) // note the "cheat"
     ) {
-        // Add movement
-        currentAccount.movements.push(amount);
+        // simulating a delay in the bank's decision to approve the loan w/ an async method
+        setTimeout(function () {
+            // Add movement
+            currentAccount.movements.push(amount);
 
-        // Add loan date
-        currentAccount.movementsDates.push(new Date().toISOString());
+            // Add loan date
+            currentAccount.movementsDates.push(new Date().toISOString());
 
-        // Update UI
-        updateUI(currentAccount);
+            // Update UI
+            updateUI(currentAccount);
+
+            // Reset timer
+            clearInterval(timer);
+            timer = startLogOutTimer();
+        }, 2500);
     }
 
     inputLoanAmount.value = '';
@@ -326,6 +370,7 @@ btnSort.addEventListener('click', function (e) {
     sorted = !sorted;
 });
 
+// simply extra
 labelBalance.addEventListener('click', function () {
     // this code has to be in an event handler b/c although it executes as soon as the page loads, it is overwritten when the user logs in
     [...document.querySelectorAll('.movements__row')].forEach(function (
@@ -338,8 +383,3 @@ labelBalance.addEventListener('click', function () {
         if (i % 3 === 0) row.style.backgroundColor = 'blue';
     });
 });
-
-////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////
