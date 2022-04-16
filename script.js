@@ -383,3 +383,5 @@ labelBalance.addEventListener('click', function () {
         if (i % 3 === 0) row.style.backgroundColor = 'blue';
     });
 });
+
+//
