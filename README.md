@@ -30,7 +30,7 @@ Loan will be approved if a deposit is greater than 10% the request(10% of the re
 
 ## Login
 
-There are two accounts to log in to. The first account's username is "js" with the password "1111". The second has username "jd" with password "2222". Once logged in, you can transfer money back and forth between the two accounts. However, you will notice a 1:1 exchange rate despite a difference in currency. There is no logout button; log in to the other account while still logged into the current. You can also request a loan and close the account altogether. Lastly, there is a logout timer to log you out after inactivity.
+There are two accounts to log in to. The first account's username is "js" with the password "1111". The second has username "jd" with password "2222". Once logged in, you can transfer money back and forth between the two accounts. However, you will notice a 1:1 exchange rate despite a difference in currency. There is no logout button; log in to the other account while still logged into the current. You can also request a loan and close the account altogether. If the loan is approved, the approved amount will appear in the transaction history after a brief delay. Lastly, there is a logout timer to log you out after inactivity.
 
 ## Launch
 
