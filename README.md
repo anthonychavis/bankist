@@ -13,9 +13,10 @@ Banking web application with only front-end.
 
 ## Introduction
 
-The goal of the project was primarily to practice javascript functionality. In addition, I practiced making a flowchart using the draw.io application.
+The goal of this project was to practice using array methods, numbers & dates, timers, & the Internationalization API.
+I additionally practiced making a flowchart using the draw.io application.
 
-I did not want to play much with the appearance of this project. Instead, I paid more attention to how a more experienced engineer structured the HTML, CSS, and JavaScript files. I also want to push through projects to play more with APIs, including creating projects myself.
+This site is not currently responsive.
 
 <!-- accounts & login: js: 1111, jd: 2222, stw: 3333, ss: 4444.
 A transfer will appear as activity on the account of both the sender and receiver (as long as you don't refresh the browser tab you can login to the receiver's account to check)
@@ -27,6 +28,7 @@ Loan will be approved if a deposit is greater than 10% the request(10% of the re
 -   JavaScript - ES6+
 -   CSS3
 -   HTML5
+-   draw.io
 
 ## Login
 
